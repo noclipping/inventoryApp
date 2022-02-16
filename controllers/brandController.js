@@ -3,6 +3,7 @@ const Brand = require('../models/brand')
 const Type = require('../models/type')
 const async = require('async');
 const brand = require('../models/brand');
+const { body, validationResult } = require('express-validator')
 
 exports.brand_list = function(req, res){
     Brand.find()
@@ -21,3 +22,25 @@ exports.brand_details = function(req,res,next){
         res.render('brand_details', {title: result.name, brand:result})
     })
 }
+exports.create_brand_get = function(req,res,next){
+    res.render('brand_create',{title:"Brands"});
+}
+exports.create_brand_post = [
+    body('name','Empty Name'),
+    body('description', 'Empty Description'),
+    (req,res,next)=>{
+        const errors = validationResult(req);
+        const brand = new Brand(
+            {
+                name:req.body.name,
+                description: req.body.description
+            }
+        )
+        if(errors.isEmpty()){
+            brand.save(function(err){
+                if(err){return next(err)}
+                res.redirect(brand.url)
+            }) 
+        } else {console.log('errors', errors)}
+    }
+]

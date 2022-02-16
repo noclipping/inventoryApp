@@ -11,6 +11,8 @@ router.get('/instrument/create', instrument_controller.instrument_create_get)
 router.post('/instrument/create', instrument_controller.instrument_create_post)
 router.get('/instrument/:id', instrument_controller.instrument_details)
 router.get('/brands', brand_controller.brand_list);
+router.get('/brand/create', brand_controller.create_brand_get);
+router.post('/brand/create', brand_controller.create_brand_post);
 router.get('/brand/:id', brand_controller.brand_details)
 
 router.get('/types', type_controller.type_list)
