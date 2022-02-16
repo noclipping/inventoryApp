@@ -1,11 +1,26 @@
 <!DOCTYPE html>
-<html>
-  <head>
-    <title><%= title %></title>
-    <link rel='stylesheet' href='/stylesheets/style.css' />
-  </head>
-  <body>
-    <h1><%= title %></h1>
-    <p>Welcome to <%= title %></p>
-  </body>
+
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="../../stylesheets/reset.css"/>
+    <link rel="stylesheet" href="../../stylesheets/style.css"/>
+    <title><%= title%></title>
+</head>
+<body>
+    
+  <%- include('nav', {url: 'home'}) -%>
+  
+    <div style="text-align: center;">
+        <h1 style=" font-size: 5vw;"><%= title %></h1>
+        <ul style=" list-style-type: none; font-size: 3.5vw">
+            <li>Instruments: <%= results.instrument_count%></li>
+            <li>Brands: <%= results.brand_count%></li>
+            <li>Types: <%= results.type_count%></li>
+        </ul>
+        <div style="display: inline-block; padding:10px; font-size: 2vw; border: 1px solid white;">use the navigation bar above to view the catalog!</div>
+    </div>
+</body>
 </html>

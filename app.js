@@ -38,27 +38,6 @@ app.use(function(req, res, next) {
   next(createError(404));
 });
 
-/*
-var Schema = mongoose.Schema;
-
-var AuthorSchema = new Schema(
-  {
-    first_name: {type: String, required: true, maxLength: 100},
-    family_name: {type: String, required: true, maxLength: 100},
-    date_of_birth: {type: Date},
-    date_of_death: {type: Date},
-  }
-);
-var Author = mongoose.model('Author', AuthorSchema)
-Author.find()
-      .sort([['family_name', 'ascending']])
-      .exec(function (err, list_authors) {
-        if (err) { return next(err); }
-        //Successful, so render
-        console.log(list_authors);
-});
-*/
-
 // error handler
 app.use(function(err, req, res, next) {
   // set locals, only providing error in development

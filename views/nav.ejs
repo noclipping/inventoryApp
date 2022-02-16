@@ -1,0 +1,15 @@
+<div>
+    <nav>
+        <ul>
+            <!-- url is passed down through 'includes' in the other views -->
+            <li class="<%= url === 'home' ? 'active' : '' %>"><a href="/">Home</a></li>
+            <li class="<%= url === 'brands' ? 'active' : ''%>"><a href="/catalog/brands">Brands</a></li>
+            <li class="<%= url === 'instruments' ? 'active' : ''%>"><a href="/catalog/instruments">Instruments</a></li>
+            <li class="<%= url === 'types' ? 'active' : ''%>"><a href="/catalog/types">Types</a></li>
+            <li style="float: right" class="<%= url === 'create_instrument' ? 'active' : ''%>"><a href="/catalog/instrument/create">Create Instrument</a></li>
+            <li style="float: right" class="<%= url === 'create_type' ? 'active' : ''%>"><a href="/catalog/type/create">Create Type</a></li>
+            <li style="float: right" class="<%= url === 'create_genre' ? 'active' : ''%>"><a href="/catalog/brand/create">Create Brand</a></li>
+        </ul>
+    </nav>
+    
+</div>

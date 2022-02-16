@@ -17,4 +17,4 @@ InstrumentSchema
     return '/catalog/instrument/' + this._id;
 });
 
-module.exports = mongoose.model('Book', InstrumentSchema);
+module.exports = mongoose.model('Instrument', InstrumentSchema);

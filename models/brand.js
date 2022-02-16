@@ -15,4 +15,4 @@ BrandSchema
     return '/catalog/brand/'+this._id;
 })
 
-module.exports = mongoose.model('brand', BrandSchema)
+module.exports = mongoose.model('Brand', BrandSchema)
