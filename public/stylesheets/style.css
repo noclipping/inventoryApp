@@ -84,6 +84,7 @@ list li {
 
 list li:last-child {
   border: none;
+  margin-bottom: 100px;
 }
 
 list li a {
