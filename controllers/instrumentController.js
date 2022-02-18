@@ -62,10 +62,8 @@ exports.instrument_create_post = [
         next();
     },
 
-    body('name').trim().isLength({ min: 1 }).escape().withMessage('Name must be specified.')
-    .isAlphanumeric().withMessage('Name has non-alphanumeric characters.'),
-    body('description').trim().isLength({ min: 1 }).escape().withMessage('Description must be specified.')
-    .isAlphanumeric().withMessage('Description has non-alphanumeric characters.'),
+    body('name').trim().isLength({ min: 1 }).escape().withMessage('Name must be specified.'),
+    body('description').trim().isLength({ min: 1 }).escape().withMessage('Description must be specified.'),
     body('brand').trim().isLength({ min: 1 }).escape().withMessage('Description must be specified.')
     .isAlphanumeric().withMessage('Description has non-alphanumeric characters.'),
     body('price').isFloat({max: 2000000}).withMessage('Price is too high.'),

@@ -26,8 +26,8 @@ exports.create_brand_get = function(req,res,next){
     res.render('brand_create',{title:"Brands"});
 }
 exports.create_brand_post = [
-    body('name','Empty Name'),
-    body('description', 'Empty Description'),
+    body('name','Empty Name').trim().isLength({ min: 1 }).escape(),
+    body('description', 'Empty Description').trim().isLength({ min: 1 }).escape(),
     (req,res,next)=>{
         const errors = validationResult(req);
         const brand = new Brand(

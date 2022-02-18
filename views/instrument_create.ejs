@@ -14,18 +14,24 @@
 
     <%- include('nav', {url:'create_instrument'}) -%>
     
-    <div >
+    <div>
         <form method="POST" action="" style="border: solid 2px white">
+            <br>
             <label>Name</label>
-            <input type="text" id="name" name="name">
+            <input type="text" id="name" name="name" value=<%= locals.instrument? instrument.name : ''%>>
             <br>
             <label>Description</label>
-            <input type="text" id="description" name="description">
+            <input type="text" id="description" name="description" value=<%= locals.instrument? instrument.description : ''%>>
             <br>
             <label>Brand</label>
             <select id="brand" name="brand">
                 <% for(const [key,value] of Object.entries(brands)){%>
-                    <option id='brand' value=<%= value._id%>><%= value.name%></option>
+                    <% if(!locals.instrument){%>
+                          <option id='brand' value=<%= value._id%>><%= value.name%></option>
+                        <% } else { %>
+                            <% console.log(value._id.toString() == instrument.brand.toString()) %>
+                            <option id='brand' value=<%= value._id%> <%= value._id.toString() == instrument.brand.toString() ? 'selected' : false %>><%= value.name%></option>
+                        <% }%>
                 <%}%>
             </select>
             <br>
@@ -39,14 +45,13 @@
             <label>Price</label>
             <input type="number" id="price" name="price" step="0.01" value=<%= locals.instrument? instrument.price : ''%>>
             <br>
-            <input class="button-6" type="submit" value="Create" value=<%= locals.instrument? instrument.price : ''%>>
+            <input class="button-6" type="submit" value="Create">
         </form>
         <br>
         <% if(locals.error){ %>
                 <% for(const[key,value] of Object.entries(error.errors)){%>
                 <p style=" text-align: center; color: red"><%= value.msg%></p>
                 <%}%>
-                <%= instrument%>
             <%}%>
     </div>
     
