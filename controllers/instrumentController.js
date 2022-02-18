@@ -98,3 +98,6 @@ exports.instrument_create_post = [
         }
     }
 ]
+exports.delete_instrument_get = function(req,res){
+    res.send('!!! INSTRUMENT DELETE NOT IMPLEMENTED !!!')
+}

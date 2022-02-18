@@ -21,7 +21,7 @@ exports.type_details = function(req,res,next){
     Instrument.find({type:req.params.id})
     .exec(function(err,result){
         if(err){next(err)}
-        res.render('type_details', {title: 'Similar Types', list:result})
+        res.render('type_details', {title: 'Similar Types', list:result, url: req.params.id})
     })
 }
 exports.create_type_get = function(req,res,nex) {
@@ -45,3 +45,7 @@ exports.create_type_post=[
     }
     
 ]
+
+exports.delete_type_get = function(req,res,next){
+    res.send('!!! DELETE TYPE FUNCTIONALITY NOT YET IMPLEMENTED !!!')
+}

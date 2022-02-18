@@ -44,3 +44,6 @@ exports.create_brand_post = [
         } else {console.log('errors', errors)}
     }
 ]
+exports.delete_brand_get = function(req,res){
+    res.send('!!! BRAND DELETE NOT IMPLEMENTED !!!')
+}
