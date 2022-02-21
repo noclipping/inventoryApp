@@ -2,7 +2,6 @@ const Instrument = require('../models/instrument')
 const Brand = require('../models/brand')
 const Type = require('../models/type')
 const async = require('async');
-const brand = require('../models/brand');
 const { body, validationResult } = require('express-validator')
 
 exports.brand_list = function(req, res){
@@ -45,5 +44,20 @@ exports.create_brand_post = [
     }
 ]
 exports.delete_brand_get = function(req,res){
-    res.send('!!! BRAND DELETE NOT IMPLEMENTED !!!')
+    res.render('brand_delete', {title: 'Delete brand'})
+}
+exports.delete_brand_post = function(req,res){
+    
+    Instrument.find({brand: req.params.id})
+    .exec(function(err, results){
+        if(results.length>0){
+            res.render('brand_delete', {title: 'Delete brand', error:'You must delete instruments tied to this brand!', results})
+        } else {
+            Brand.deleteOne({_id: req.params.id}, function(err,results){
+                console.log(results)
+                res.redirect('/catalog/brands')
+            })
+        }
+    })
+
 }

@@ -103,3 +103,16 @@ list li a:hover {
   font-size: 6vw;
   background: #5e5e5e;
 }
+.du {
+  display: inline-block;
+  text-align: center;
+  margin: auto;
+}
+.du a {
+  margin: 10px 0;
+  border: solid 1px white;
+  text-align: center;
+  text-decoration: none;
+  color: white;
+  display: block;
+}

@@ -29,12 +29,10 @@ exports.create_type_get = function(req,res,nex) {
 }
 exports.create_type_post=[
     body('name','Empty Name').trim().isLength({ min: 1 }).escape(),
-    body('description', 'Empty Description').trim().isLength({ min: 1 }).escape(),
     (req,res,next)=>{
         const errors = validationResult(req);
         const type = new Type ({
-            name: req.body.name,
-            description: req.body.description
+            name: req.body.name
         })
         if(errors.isEmpty()){
             type.save(function(err){
