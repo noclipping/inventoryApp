@@ -106,13 +106,21 @@ list li a:hover {
 .du {
   display: inline-block;
   text-align: center;
-  margin: auto;
+  margin-left: 30px;
 }
 .du a {
+  display: inline-block;
   margin: 10px 0;
+  padding: 3px;
   border: solid 1px white;
   text-align: center;
   text-decoration: none;
   color: white;
   display: block;
+}
+.du a:nth-child(1) {
+  background-color: rgb(95, 1, 1);
+}
+.du a:nth-child(2) {
+  background-color: rgb(1, 95, 6);
 }

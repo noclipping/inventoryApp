@@ -15,13 +15,13 @@
     <div>
         <list>
             <ul style="text-align:center">
-                <h2>Similar types</h2>
+                <h2 style="display: inline-block">Similar types</h2> <div class="du"><a href=<%= url+'/delete'%>>Delete</a>  <a href=<%= url+'/update'%>>Update</a></div>
                 <%list.forEach(type=>{%>
                     <li class=><a href="<%= type.url%>"><%= type.name %></a></li>    
                 <%})%>
             </ul>
         </list>
-        <div class="du"><a href=<%= url+'/delete'%>>Delete</a>  <a href=<%= url+'/update'%>>Update</a></div>
+        
     </div>
 </body>
 </html>

@@ -14,10 +14,9 @@
     <%- include('nav', {url:'brands'}) -%>
     
     <div class="details-container">
-        <h2><%= title%></h2>
+        <h2 style="display: inline-block"><%= title%></h2> <div class="du"><a href=<%= brand.url+'/delete'%>>Delete</a>  <a href=<%= brand.url+'/update'%>>Update</a></div>
         <hr>
         <p class="description"> <%= brand.description%></p>
-        <div class="du"><a href=<%= brand.url+'/delete'%>>Delete</a>  <a href=<%= brand.url+'/update'%>>Update</a></div>
     </div>
 </body>
 

@@ -61,3 +61,37 @@ exports.delete_brand_post = function(req,res){
     })
 
 }
+exports.update_brand_get = function(req,res){
+    Brand.findById(req.params.id, function(err,results){
+        res.render('brand_update', {title: 'Brand Update', results})
+    })
+}
+exports.update_brand_post = [
+    body('name','Empty Name').trim().isLength({ min: 1 }).escape(),
+    body('description', 'Empty Description').trim().isLength({ min: 1 }).escape(),
+    (req,res,next)=>{
+        const errors = validationResult(req);
+        // const brand = new Brand(
+        //     {
+        //         name:req.body.name,
+        //         description: req.body.description
+        //     }
+        // )
+        if(errors.isEmpty()){
+            Brand.updateOne({_id: req.params.id},
+                {
+                    name: req.body.name,
+                    description: req.body.description
+                },
+                function(err,docs){
+                    if(err){
+                        console.log(err)
+                    } else {
+                        console.log('Updated Docs:', docs)
+                        res.redirect(`/catalog/brand/${req.params.id}`)
+                    }
+                }
+                )
+        } else {console.log('errors', errors)}
+    }
+]

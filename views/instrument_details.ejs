@@ -12,9 +12,8 @@
 <body>
 
     <%- include('nav', {url:'instruments'}) -%>
-    <hr>
     <div class="details-container">
-        <h2><%= title%> - <%= results.brand.name%></h2>
+        <div><h2 style="display: inline-block"><%= title%> - <%= results.brand.name%></h2> <div style="display: inline-block" class="du"><a href=<%= results.url+'/delete'%>>Delete</a>  <a href=<%= results.url+'/update'%>>Update</a> </div>
         <br>
         <h3>$<%= price%></h3>
         <br>
@@ -22,7 +21,6 @@
         <p class="description"> <%= results.description%></p>
         <br>
         <p> <%= results.type.name%></p>
-        <div class="du"><a href=<%= results.url+'/delete'%>>Delete</a>  <a href=<%= results.url+'/update'%>>Update</a>
     </div>
 </body>
 </html>
