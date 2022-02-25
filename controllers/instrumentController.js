@@ -4,6 +4,9 @@ const Type = require('../models/type')
 const async = require('async');
 const { body, validationResult } = require('express-validator')
 const  currency  = require('currency.js');
+const s3Funcs = require('../s3')
+
+
 exports.index = function(req, res){
     async.parallel({
         instrument_count: function(cb){
@@ -16,10 +19,16 @@ exports.index = function(req, res){
             Type.countDocuments({},cb)
         }
     }, function(err,results){
+        s3Funcs.getImage('1d7487784133590e9ac58c2e68e0665f').then(
+            (img)=>{
+                let image = 'data:image/jpeg;base64,' + s3Funcs.encode(img.Body)
+                res.render('index', {title: 'Inventory App', results, image})
+            }
+        )
         if (err) { return next(err); }
-        res.render('index', {title: 'Instrument Inventory App', results})
     })
 }
+
 exports.instrument_list = function(req,res){
     Instrument.find({})
     .exec(function(err,results){
@@ -57,9 +66,17 @@ exports.instrument_create_get = function(req,res){
     // this goes in the post request below if i can get it to work
 
 exports.instrument_create_post = [
-    (req,res,next)=>{
-        console.log(req.body)
-        next();
+    async (req,res,next)=>{
+        console.log('file',req.file)
+        if(req.file.size > 5000000) {
+            console.log('file size too large!')
+            res.send('file size too large!')
+            next();
+        } else {
+            const uploadResult = await s3Funcs.uploadFile(req.file)
+            console.log(uploadResult)
+            next();
+        }
     },
 
     body('name').trim().isLength({ min: 1 }).escape().withMessage('Name must be specified.'),
@@ -68,6 +85,8 @@ exports.instrument_create_post = [
     .isAlphanumeric().withMessage('Description has non-alphanumeric characters.'),
     body('price').isFloat({max: 2000000}).withMessage('Price is too high.'),
     body('type', 'Empty Type'),
+    body('image', 'Empty image'),
+
     (req,res,next)=>{
         const errors = validationResult(req);
         const instrument = new Instrument(

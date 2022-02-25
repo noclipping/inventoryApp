@@ -15,7 +15,7 @@
     <%- include('nav', {url:'create_instrument'}) -%>
     
     <div>
-        <form method="POST" action="" style="border: solid 2px white">
+        <form method="POST" action="" enctype="multipart/form-data" style="border: solid 2px white">
             <br>
             <label>Name</label>
             <input type="text" id="name" name="name" value="<%= locals.instrument? instrument.name : ''%>">
@@ -29,7 +29,6 @@
                     <% if(!locals.instrument){%>
                           <option id='brand' value=<%= value._id%>><%= value.name%></option>
                         <% } else { %>
-                            <% console.log(value._id.toString() == instrument.brand.toString()) %>
                             <option id='brand' value=<%= value._id%> <%= value._id.toString() == instrument.brand.toString() ? 'selected' : false %>><%= value.name%></option>
                         <% }%>
                 <%}%>
@@ -44,6 +43,9 @@
             <br>
             <label>Price</label>
             <input type="number" id="price" name="price" step="0.01" value=<%= locals.instrument? instrument.price : ''%>>
+            <br>
+            
+            <input type="file" name="image" id="image">
             <br>
             <input class="button-6" type="submit" value="Create">
         </form>

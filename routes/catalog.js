@@ -1,6 +1,9 @@
 const express = require('express');
 const router = express.Router();
 
+const multer = require('multer')
+const upload = multer({dest:'uploads/'})
+
 const instrument_controller = require('../controllers/instrumentController')
 const brand_controller = require('../controllers/brandController')
 const type_controller = require('../controllers/typeController')
@@ -8,7 +11,8 @@ const type_controller = require('../controllers/typeController')
 router.get('/', instrument_controller.index);
 router.get('/instruments', instrument_controller.instrument_list)
 router.get('/instrument/create', instrument_controller.instrument_create_get)
-router.post('/instrument/create', instrument_controller.instrument_create_post)
+router.post('/instrument/create', upload.single('image'), instrument_controller.instrument_create_post)
+
 router.get('/instrument/:id/delete', instrument_controller.delete_instrument_get);
 router.post('/instrument/:id/delete', instrument_controller.delete_instrument_post);
 router.get('/instrument/:id/update', instrument_controller.update_instrument_get);
