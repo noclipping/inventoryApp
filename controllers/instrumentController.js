@@ -201,12 +201,23 @@ exports.delete_instrument_get = function (req, res) {
     res.render('instrument_delete', { title: 'Delete Instrument' });
 };
 
-exports.delete_instrument_post = function (req, res) {
-    Instrument.deleteOne({ _id: req.params.id }, function (err, results) {
-        res.redirect('/catalog/instruments');
-    });
-};
-
+exports.delete_instrument_post = [
+    async function (req, res, next) {
+        Instrument.findById(req.params.id, async function (err, results) {
+            if (results.imgURL) {
+                const deleteResults = await s3Funcs.deleteImage(results.imgURL);
+                console.log(deleteResults);
+                next();
+            }
+            next();
+        });
+    },
+    function (req, res) {
+        Instrument.deleteOne({ _id: req.params.id }, function (err, results) {
+            res.redirect('/catalog/instruments');
+        });
+    },
+];
 exports.update_instrument_get = function (req, res) {
     Instrument.findById(req.params.id, function (err, results) {
         async.parallel(

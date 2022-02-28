@@ -1,80 +1,61 @@
 <!DOCTYPE html>
 <html lang="en">
-    <head>
-        <meta charset="UTF-8" />
-        <meta http-equiv="X-UA-Compatible" content="IE=edge" />
-        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-        <link rel="stylesheet" href="../../stylesheets/reset.css" />
-        <link rel="stylesheet" href="../../stylesheets/form_reset.css" />
-        <link rel="stylesheet" href="../../stylesheets/style.css" />
-        <link rel="stylesheet" href="../../stylesheets/form.css" />
-        <title><%= title%></title>
-    </head>
-    <body>
-        <%- include('nav', {url:'create_instrument'}) -%>
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="../../stylesheets/reset.css"/>
+    <link rel="stylesheet" href="../../stylesheets/form_reset.css"/>
+    <link rel="stylesheet" href="../../stylesheets/style.css"/>
+    <link rel="stylesheet" href="../../stylesheets/form.css"/>
+    <title><%= title%></title>
+</head>
+<body>
 
-        <div>
-            <form
-                method="POST"
-                action=""
-                enctype="multipart/form-data"
-                style="border: solid 2px white"
-            >
-                <br />
-                <label>Name</label>
-                <input
-                    type="text"
-                    id="name"
-                    name="name"
-                    value="<%= locals.instrument? instrument.name : ''%>"
-                />
-                <br />
-                <label>Description</label>
-                <input
-                    type="text"
-                    id="description"
-                    name="description"
-                    value="<%= locals.instrument? instrument.description : ''%>"
-                />
-                <br />
-                <label>Brand</label>
-                <select id="brand" name="brand">
-                    <% for(const [key,value] of Object.entries(brands)){%> <%
-                    if(!locals.instrument){%>
-                    <option id="brand" value="<%" ="value._id%">
-                        ><%= value.name%>
-                    </option>
-                    <% } else { %>
-                    <option id="brand" value="<%" ="value._id%">
-                        <%= value._id.toString() == instrument.brand.toString()
-                        ? 'selected' : false %>><%= value.name%>
-                    </option>
-                    <% }%> <%}%>
-                </select>
-                <br />
-                <label>Type</label>
-                <select id="type" name="type">
-                    <% for(const [key,value] of Object.entries(types)){%>
-                    <option id="type" value="<%" ="value._id%">
-                        ><%= value.name%>
-                    </option>
-                    <%}%>
-                </select>
-                <br />
-                <label>Price</label>
-                <input type="number" id="price" name="price" step="0.01"
-                value=<%= locals.instrument? instrument.price : ''%>>
-                <br />
-
-                <input type="file" name="image" id="image" />
-                <br />
-                <input class="button-6" type="submit" value="Create" />
-            </form>
-            <br />
-            <% if(locals.error){ %> <% for(const[key,value] of
-            Object.entries(error.errors)){%>
-            <p style="text-align: center; color: red"><%= value.msg%></p>
-            <%}%> <%}%>
-        </div>
-    </body>
+    <%- include('nav', {url:'create_instrument'}) -%>
+    
+    <div>
+        <form method="POST" action="" enctype="multipart/form-data" style="border: solid 2px white">
+            <br>
+            <label>Name</label>
+            <input type="text" id="name" name="name" value="<%= locals.instrument? instrument.name : ''%>">
+            <br>
+            <label>Description</label>
+            <input type="text" id="description" name="description" value="<%= locals.instrument? instrument.description : ''%>">
+            <br>
+            <label>Brand</label>
+            <select id="brand" name="brand">
+                <% for(const [key,value] of Object.entries(brands)){%>
+                    <% if(!locals.instrument){%>
+                          <option id='brand' value=<%= value._id%>><%= value.name%></option>
+                        <% } else { %>
+                            <option id='brand' value=<%= value._id%> <%= value._id.toString() == instrument.brand.toString() ? 'selected' : false %>><%= value.name%></option>
+                        <% }%>
+                <%}%>
+            </select>
+            <br>
+            <label>Type</label>
+            <select id="type" name="type">
+            <% for(const [key,value] of Object.entries(types)){%>
+                <option id='type' value=<%= value._id%>><%= value.name%></option>
+            <%}%>
+            </select>
+            <br>
+            <label>Price</label>
+            <input type="number" id="price" name="price" step="0.01" value=<%= locals.instrument? instrument.price : ''%>>
+            <br>
+            
+            <input type="file" name="image" id="image">
+            <br>
+            <input class="button-6" type="submit" value="Create">
+        </form>
+        <br>
+        <% if(locals.error){ %>
+                <% for(const[key,value] of Object.entries(error.errors)){%>
+                <p style=" text-align: center; color: red"><%= value.msg%></p>
+                <%}%>
+            <%}%>
+    </div>
+    
+</body>
 </html>

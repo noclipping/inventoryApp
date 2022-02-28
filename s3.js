@@ -33,6 +33,16 @@ exports.getImage = async function (key) {
 
     return data;
 };
+exports.deleteImage = async function (key) {
+    const data = s3
+        .deleteObject({
+            Bucket: bucketName,
+            Key: key,
+        })
+        .promise();
+
+    return data;
+};
 
 exports.encode = function (data) {
     let buf = Buffer.from(data);
