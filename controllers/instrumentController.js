@@ -143,12 +143,13 @@ exports.instrument_create_post = [
                 console.log('file', req.file);
                 if (req.file.size > 5000000) {
                     console.log('file size too large!');
+                    await unlinkFile(req.file.path);
                     // res.send('file size too large!')
                 } else {
                     const uploadResult = await s3Funcs.uploadFile(req.file);
                     await unlinkFile(req.file.path);
                     imgURL = uploadResult.key;
-                    console.log('EPIC FILE NAME : ', uploadResult.key);
+                    console.log('FILE NAME : ', uploadResult.key);
                 }
             }
 
@@ -167,6 +168,11 @@ exports.instrument_create_post = [
                 res.redirect(instrument.url);
             });
         } else {
+            // this if is required, otherwise file will stay in uploads
+            if (req.file) {
+                await unlinkFile(req.file.path);
+            }
+            console.log('errs NOT empty!');
             async.parallel(
                 {
                     types: function (cb) {
