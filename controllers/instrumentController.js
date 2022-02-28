@@ -138,7 +138,7 @@ exports.instrument_create_post = [
         const errors = validationResult(req);
 
         if (errors.isEmpty()) {
-            let imgURL = 'empty';
+            let imgURL = '';
             if (req.file) {
                 console.log('file', req.file);
                 if (req.file.size > 5000000) {
