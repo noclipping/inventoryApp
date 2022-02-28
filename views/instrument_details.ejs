@@ -13,7 +13,8 @@
 
     <%- include('nav', {url:'instruments'}) -%>
     <div class="details-container">
-        <div><h2 style="display: inline-block"><%= title%> - <%= results.brand.name%></h2> <div style="display: inline-block" class="du"><a href=<%= results.url+'/delete'%>>Delete</a>  <a href=<%= results.url+'/update'%>>Update</a> </div>
+    <div>
+        <div style="display: flex; align-items: center;"><%if(image.length>0){%><img style="display: inline-block; height: 200px; width: 200px"src=<%= image%>><%}%> <h2 style="display: inline-block"><%= title%> - <%= results.brand.name%></h2> <div style="display: inline-block" class="du"><a href=<%= results.url+'/delete'%>>Delete</a>  <a href=<%= results.url+'/update'%>>Update</a>  </div></div>
         <br>
         <h3>$<%= price%></h3>
         <br>

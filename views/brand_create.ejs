@@ -1,34 +1,42 @@
 <!DOCTYPE html>
 <html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" href="../../stylesheets/reset.css"/>
-    <link rel="stylesheet" href="../../stylesheets/form_reset.css"/>
-    <link rel="stylesheet" href="../../stylesheets/style.css"/>
-    <link rel="stylesheet" href="../../stylesheets/form.css"/>
-    <title><%= title%></title>
-</head>
-<body>
+    <head>
+        <meta charset="UTF-8" />
+        <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+        <link rel="stylesheet" href="../../stylesheets/reset.css" />
+        <link rel="stylesheet" href="../../stylesheets/form_reset.css" />
+        <link rel="stylesheet" href="../../stylesheets/style.css" />
+        <link rel="stylesheet" href="../../stylesheets/form.css" />
+        <title><%= title%></title>
+    </head>
+    <body>
+        <%- include('nav', {url:'create_brand'}) -%>
 
-    <%- include('nav', {url:'create_brand'}) -%>
-    
-    <div>
-        <form method="POST" action="" style="border: solid 2px white">
-            <br>
-            <label>Brand Name</label>
-            <br>
-            <input id="name" name="name" type="text" placeholder="Brand Name">
-            <br>
-            <br>
-            <label>Brand Description</label>
-            <br>
-            <input id="description" name="description" type="text" placeholder="Description">
-            <br>
-            <input class="button-6" type="submit" value="Create">
-        </form>
-    </div>
-    
-</body>
+        <div>
+            <form method="POST" action="" style="border: solid 2px white">
+                <br />
+                <label>Brand Name</label>
+                <br />
+                <input
+                    id="name"
+                    name="name"
+                    type="text"
+                    placeholder="Brand Name"
+                />
+                <br />
+                <br />
+                <label>Brand Description</label>
+                <br />
+                <input
+                    id="description"
+                    name="description"
+                    type="text"
+                    placeholder="Description"
+                />
+                <br />
+                <input class="button-6" type="submit" value="Create" />
+            </form>
+        </div>
+    </body>
 </html>

@@ -7,8 +7,8 @@ const InstrumentSchema = new Schema(
         description: {type: String, required: true},
         brand: { type: Schema.Types.ObjectId, ref: 'Brand' , required: true},
         type: { type: Schema.Types.ObjectId, ref: 'Type', required: true },
-        price: {type: String, required: true}
-
+        price: {type: String, required: true},
+        imgURL: {type: String, required: false}
     }
 )
 InstrumentSchema

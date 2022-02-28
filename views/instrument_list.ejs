@@ -1,26 +1,25 @@
 <!DOCTYPE html>
 <html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" href="../../stylesheets/reset.css"/>
-    <link rel="stylesheet" href="../../stylesheets/style.css"/>
-    <title><%= title%></title>
-</head>
-<body>
-    
-    <%- include('nav', {url:'instruments'}) -%>
+    <head>
+        <meta charset="UTF-8" />
+        <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+        <link rel="stylesheet" href="../../stylesheets/reset.css" />
+        <link rel="stylesheet" href="../../stylesheets/style.css" />
+        <title><%= title%></title>
+    </head>
+    <body>
+        <%- include('nav', {url:'instruments'}) -%>
 
-    <div style="text-align: center;">
-        <list>
-            <ul>
-                <h2><%= title%></h2>
-                <%results.forEach(result=>{%>
-                    <li><a href="<%= result.url%>"><%= result.name %></a></li>    
-                <%})%>
-            </ul>
-        </list>
-    </div>
-</body>
+        <div style="text-align: center">
+            <list>
+                <ul>
+                    <h2><%= title%></h2>
+                    <%results.forEach(result=>{%>
+                    <li><a href="<%= result.url%>"><%= result.name %></a></li>
+                    <%})%>
+                </ul>
+            </list>
+        </div>
+    </body>
 </html>

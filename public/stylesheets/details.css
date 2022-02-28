@@ -1,17 +1,17 @@
 .details-container {
-  margin-left: 20px;
-  margin-top: 20px;
+    margin-left: 20px;
+    margin-top: 20px;
 }
 
 h2 {
-  font-size: 4vw;
+    font-size: 4vw;
 }
 
 h3 {
-  font-size: 3vw;
+    font-size: 3vw;
 }
 
 .description {
-  max-width: 80%;
-  font-size: 1.5vw;
+    max-width: 80%;
+    font-size: 1.5vw;
 }
