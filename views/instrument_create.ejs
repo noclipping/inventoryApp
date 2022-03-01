@@ -8,6 +8,17 @@
     <link rel="stylesheet" href="../../stylesheets/form_reset.css"/>
     <link rel="stylesheet" href="../../stylesheets/style.css"/>
     <link rel="stylesheet" href="../../stylesheets/form.css"/>
+    <%if(title){%>
+        <link rel="stylesheet" href="../../../stylesheets/reset.css"/>
+        <link rel="stylesheet" href="../../../stylesheets/form_reset.css"/>
+        <link rel="stylesheet" href="../../../stylesheets/style.css"/>
+        <link rel="stylesheet" href="../../../stylesheets/form.css"/>
+    <%}else{%>
+        <link rel="stylesheet" href="../../stylesheets/reset.css"/>
+        <link rel="stylesheet" href="../../stylesheets/form_reset.css"/>
+        <link rel="stylesheet" href="../../stylesheets/style.css"/>
+        <link rel="stylesheet" href="../../stylesheets/form.css"/>
+    <%}%>
     <title><%= title%></title>
 </head>
 <body>
@@ -44,7 +55,7 @@
             <label>Price</label>
             <input type="number" id="price" name="price" step="0.01" value=<%= locals.instrument? instrument.price : ''%>>
             <br>
-            
+            <br>
             <label for="image">Upload image (optional)</label>
             <br>
             <input type="file" name="image" id="image">

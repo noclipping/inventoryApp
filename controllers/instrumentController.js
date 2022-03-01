@@ -9,7 +9,7 @@ const fs = require('fs');
 const util = require('util');
 const { localsName } = require('ejs');
 const unlinkFile = util.promisify(fs.unlink);
-
+const helpers = require('../helperFunctions');
 exports.index = function (req, res) {
     async.parallel(
         {
@@ -25,26 +25,11 @@ exports.index = function (req, res) {
         },
 
         function (err, results) {
-            s3Funcs
-                .getImage('ddf08f4d992970273ef73e4d96da9e85')
-                .then((img) => {
-                    image =
-                        'data:image/jpeg;base64,' + s3Funcs.encode(img.Body);
-                    res.render('index', {
-                        title: 'Inventory App',
-                        results,
-                        image,
-                    });
-                })
-                .catch((err) => {
-                    console.log('err');
-                    res.render('index', {
-                        title: 'Inventory App',
-                        results,
-                        image: '',
-                    });
-                });
-
+            res.render('index', {
+                title: 'Inventory App',
+                results,
+                image: '',
+            });
             if (err) {
                 return next(err);
             }
@@ -132,27 +117,22 @@ exports.instrument_create_post = [
         .withMessage('Description has non-alphanumeric characters.'),
     body('price').isFloat({ max: 2000000 }).withMessage('Price is too high.'),
     body('type', 'Empty Type'),
-    body('image', 'Empty image'),
 
     async (req, res, next) => {
         const errors = validationResult(req);
 
+        if (req.file) {
+            helpers.fileValidation(req.file, errors);
+        }
+
         if (errors.isEmpty()) {
             let imgURL = '';
             if (req.file) {
-                console.log('file', req.file);
-                if (req.file.size > 5000000) {
-                    console.log('file size too large!');
-                    await unlinkFile(req.file.path);
-                    // res.send('file size too large!')
-                } else {
-                    const uploadResult = await s3Funcs.uploadFile(req.file);
-                    await unlinkFile(req.file.path);
-                    imgURL = uploadResult.key;
-                    console.log('FILE NAME : ', uploadResult.key);
-                }
+                const uploadResult = await s3Funcs.uploadFile(req.file);
+                await unlinkFile(req.file.path);
+                imgURL = uploadResult.key;
+                console.log('FILE NAME : ', uploadResult.key);
             }
-
             const instrument = new Instrument({
                 name: req.body.name,
                 description: req.body.description,
@@ -172,7 +152,6 @@ exports.instrument_create_post = [
             if (req.file) {
                 await unlinkFile(req.file.path);
             }
-            console.log('errs NOT empty!');
             async.parallel(
                 {
                     types: function (cb) {
@@ -252,10 +231,6 @@ exports.update_instrument_get = function (req, res) {
 };
 
 exports.update_instrument_post = [
-    (req, res, next) => {
-        next();
-    },
-
     body('name')
         .trim()
         .isLength({ min: 1 })
@@ -275,8 +250,14 @@ exports.update_instrument_post = [
         .withMessage('Description has non-alphanumeric characters.'),
     body('price').isFloat({ max: 2000000 }).withMessage('Price is too high.'),
     body('type', 'Empty Type'),
-    (req, res, next) => {
+    async (req, res, next) => {
+        console.log('req:', req);
         const errors = validationResult(req);
+        console.log('file:', req.file);
+        if (req.file) {
+            helpers.fileValidation(req.file, errors);
+        }
+
         const instrument = new Instrument({
             name: req.body.name,
             description: req.body.description,
@@ -284,12 +265,22 @@ exports.update_instrument_post = [
             type: req.body.type,
             price: req.body.price,
         });
-        if (errors.isEmpty()) {
-            // instrument.save(function(err){
-            //     if(err){return next(err)}
-            //     res.redirect(instrument.url)
-            // })
 
+        if (errors.isEmpty()) {
+            let imageExists = false;
+            let imgURL = '';
+            if (req.file) {
+                const uploadResult = await s3Funcs.uploadFile(req.file);
+                await unlinkFile(req.file.path);
+                imgURL = uploadResult.key;
+                console.log('FILE NAME : ', uploadResult.key);
+                imageExists = true;
+            }
+            if (imageExists) {
+                Instrument.findById(req.params.id, function (err, doc) {
+                    s3Funcs.deleteImage(doc.imgURL);
+                });
+            }
             Instrument.updateOne(
                 { _id: req.params.id },
                 {
@@ -298,6 +289,7 @@ exports.update_instrument_post = [
                     brand: req.body.brand,
                     type: req.body.type,
                     price: req.body.price,
+                    ...(imageExists && { imgURL: imgURL }),
                 },
                 function (err, docs) {
                     if (err) {
@@ -310,6 +302,9 @@ exports.update_instrument_post = [
             );
             console.log('success');
         } else {
+            if (req.file) {
+                await unlinkFile(req.file.path);
+            }
             async.parallel(
                 {
                     types: function (cb) {
@@ -321,6 +316,7 @@ exports.update_instrument_post = [
                 },
                 function (err, results) {
                     res.render('instrument_create', {
+                        title: 'lol',
                         types: results.types,
                         brands: results.brands,
                         title: 'Create Instrument',

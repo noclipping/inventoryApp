@@ -31,6 +31,7 @@ router.get(
 );
 router.post(
     '/instrument/:id/update',
+    upload.single('image'),
     instrument_controller.update_instrument_post
 );
 router.get('/instrument/:id', instrument_controller.instrument_details);
