@@ -194,7 +194,6 @@ exports.delete_instrument_post = [
                 console.log(deleteResults);
                 next();
             }
-            next();
         });
     },
     function (req, res) {
@@ -251,9 +250,8 @@ exports.update_instrument_post = [
     body('price').isFloat({ max: 2000000 }).withMessage('Price is too high.'),
     body('type', 'Empty Type'),
     async (req, res, next) => {
-        console.log('req:', req);
         const errors = validationResult(req);
-        console.log('file:', req.file);
+        // if there is a file, validate it
         if (req.file) {
             helpers.fileValidation(req.file, errors);
         }
@@ -267,15 +265,30 @@ exports.update_instrument_post = [
         });
 
         if (errors.isEmpty()) {
+            // if there is an image
             let imageExists = false;
             let imgURL = '';
             if (req.file) {
-                const uploadResult = await s3Funcs.uploadFile(req.file);
-                await unlinkFile(req.file.path);
-                imgURL = uploadResult.key;
-                console.log('FILE NAME : ', uploadResult.key);
+                try {
+                    const uploadResult = await s3Funcs.uploadFile(req.file);
+                    imgURL = uploadResult.key;
+                } catch (err) {
+                    alert(err);
+                }
+                try {
+                    await unlinkFile(req.file.path);
+                } catch (err) {
+                    alert(err);
+                }
                 imageExists = true;
             }
+            // below is the error occurence, i do believe so at least...
+            // the s3func delete image has no URI! I am trying to delete
+            // an image that does not exist, because there is no image
+            // to begin with!!! ... i.e. create new instrument,
+            // try and update instrument by adding a photo with the update btn,
+            // for some reason i have image exists = true when there isnt
+            // already an image attached. yikes. fix!
             if (imageExists) {
                 Instrument.findById(req.params.id, function (err, doc) {
                     s3Funcs.deleteImage(doc.imgURL);
@@ -289,11 +302,10 @@ exports.update_instrument_post = [
                     brand: req.body.brand,
                     type: req.body.type,
                     price: req.body.price,
-                    ...(imageExists && { imgURL: imgURL }),
+                    ...(imageExists && { imgURL: imgURL }), // if there was an image added to update (exists), then also update the img url
                 },
                 function (err, docs) {
                     if (err) {
-                        console.log('err', err);
                     } else {
                         console.log('Updated Docs: ', docs);
                         res.redirect(`/catalog/instrument/${req.params.id}`);
