@@ -193,6 +193,8 @@ exports.delete_instrument_post = [
                 const deleteResults = await s3Funcs.deleteImage(results.imgURL);
                 console.log(deleteResults);
                 next();
+            } else {
+                next();
             }
         });
     },
@@ -289,11 +291,11 @@ exports.update_instrument_post = [
             // try and update instrument by adding a photo with the update btn,
             // for some reason i have image exists = true when there isnt
             // already an image attached. yikes. fix!
-            if (imageExists) {
-                Instrument.findById(req.params.id, function (err, doc) {
+            Instrument.findById(req.params.id, function (err, doc) {
+                if (doc.imgURL) {
                     s3Funcs.deleteImage(doc.imgURL);
-                });
-            }
+                }
+            });
             Instrument.updateOne(
                 { _id: req.params.id },
                 {
