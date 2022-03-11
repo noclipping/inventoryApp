@@ -342,3 +342,16 @@ exports.update_instrument_post = [
         }
     },
 ];
+
+exports.instrument_delete_image = function (req, res) {
+    Instrument.updateOne(
+        { _id: req.params.id },
+        { imgURL: '' },
+        function (err, doc) {
+            if (doc.imgURL) {
+                s3Funcs.deleteImage(doc.imgURL);
+            }
+            res.redirect(`/catalog/instrument/${req.params.id}`);
+        }
+    );
+};

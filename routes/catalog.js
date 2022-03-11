@@ -35,6 +35,7 @@ router.post(
     instrument_controller.update_instrument_post
 );
 router.get('/instrument/:id', instrument_controller.instrument_details);
+router.post('/instrument/:id', instrument_controller.instrument_delete_image);
 
 router.get('/brands', brand_controller.brand_list);
 router.get('/brand/create', brand_controller.create_brand_get);

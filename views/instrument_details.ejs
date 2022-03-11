@@ -14,7 +14,20 @@
     <%- include('nav', {url:'instruments'}) -%>
     <div class="details-container">
     <div>
-        <div style="display: flex; align-items: center;"><%if(image.length>0){%><img style="display: inline-block; height: 200px; width: 200px"src=<%= image%>><%}%> <h2 style="display: inline-block"><%= title%> - <%= results.brand.name%></h2> <div style="display: inline-block" class="du"><a href=<%= results.url+'/delete'%>>Delete</a>  <a href=<%= results.url+'/update'%>>Update</a>  </div></div>
+        <div style="display: flex; align-items: center;">
+            <div style="position: relative;">
+                <%if(image.length>0){%><img style="display: inline-block;  height: 200px; width: 200px"src=<%= image%>> 
+                <form method="POST">
+                    <input class="del-btn"  type="submit" value="Delete">
+                </form> 
+                <%}%> 
+            </div>
+            <h2 style="display: inline-block"><%= title%> - <%= results.brand.name%></h2> 
+            <div style="display: inline-block" class="du">
+                <a href=<%= results.url+'/delete'%>>Delete</a>  <a href=<%= results.url+'/update'%>>Update</a>  
+            </div>
+        </div>
+        
         <br>
         <h3>$<%= price%></h3>
         <br>
@@ -25,3 +38,22 @@
     </div>
 </body>
 </html>
+<style>
+    .del-btn {
+        background-color: rgb(97, 8, 8); /* Green */
+        border: none;
+        color: white;
+        padding: 3px;
+        text-align: center;
+        text-decoration: none;
+        display: inline-block;
+        font-size: 12px;
+        cursor:pointer;
+        text-transform: uppercase;
+        border: 1px black solid;
+        border-radius: 4px;
+        position: absolute; 
+        top:1px;
+        left:1px
+    }
+</style>
