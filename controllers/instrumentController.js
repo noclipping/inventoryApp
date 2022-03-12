@@ -284,13 +284,6 @@ exports.update_instrument_post = [
                 }
                 imageExists = true;
             }
-            // below is the error occurence, i do believe so at least...
-            // the s3func delete image has no URI! I am trying to delete
-            // an image that does not exist, because there is no image
-            // to begin with!!! ... i.e. create new instrument,
-            // try and update instrument by adding a photo with the update btn,
-            // for some reason i have image exists = true when there isnt
-            // already an image attached. yikes. fix!
             Instrument.findById(req.params.id, function (err, doc) {
                 if (doc.imgURL) {
                     s3Funcs.deleteImage(doc.imgURL);
